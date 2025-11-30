@@ -1,4 +1,3 @@
-
 export declare type IUserScript = [ IUserScriptKey, string ]
 	| [ 'run-at', IUserScriptRunAt ]
 	| [ 'grant', GrantFunctionInterface ];
@@ -7,28 +6,52 @@ export declare type IUserScript = [ IUserScriptKey, string ]
  * 键值
  */
 export declare type IUserScriptKey =
-	| 'name'
-	| 'name:en'
-	| 'description'
-	| 'version'
+	'name'
 	| 'namespace'
+	| 'version'
+	| 'description'
 	| 'author'
-	| 'grant'
 	| 'run-at'
-	| 'match'
-	| 'connect'
-	| 'require'
-	| 'icon'
-	| 'resource'
-	| 'license'
-	| 'icon'
+	| 'run-in'
+	| 'early-start'
+	| 'inject-into'
+	| 'storageNam'
+	| 'background'
 	| 'crontab'
-	| 'background';
+	| 'match'
+	| 'include'
+	| 'exclude'
+	| 'grant'
+	| 'connect'
+	| 'resource'
+	| 'require'
+	| 'require-css'
+	| 'noframes'
+	| 'definition'
+	| 'antifeature'
+	| 'license'
+	| 'updateURL'
+	| 'downloadURL'
+	| 'supportURL'
+	| 'homepage'
+	| 'homepageURL'
+	| 'website'
+	| 'source'
+	| 'icon'
+	| 'iconURL'
+	| 'defaulticon'
+	| 'icon64'
+	| 'icon64URL'
 
 /**
  * 脚本运行时机
  * */
-export declare type IUserScriptRunAt = 'document-start' | 'document-idle' | 'document-end' | 'document-body' | 'context-menu';
+export declare type IUserScriptRunAt =
+	'document-start'
+	| 'document-idle'
+	| 'document-end'
+	| 'document-body'
+	| 'context-menu';
 
 /**
  * 授权函数名数组
