@@ -1,0 +1,12 @@
+{
+  "name": "webscript-project-template",
+  "version": "1.0.0",
+  "description": "适用于 脚本猫, 兼容 篡改猴 脚本开发.",
+  "main": "index.js",
+  "scripts": {
+    "build:to-js": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
