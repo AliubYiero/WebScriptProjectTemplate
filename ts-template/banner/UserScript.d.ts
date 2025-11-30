@@ -1,13 +1,7 @@
-/**
- * UserScript 脚本配置
- */
-
 
 export declare type IUserScript = [ IUserScriptKey, string ]
 	| [ 'run-at', IUserScriptRunAt ]
 	| [ 'grant', GrantFunctionInterface ];
-
-
 
 /**
  * 键值
