@@ -17,6 +17,7 @@ export default defineConfig( () => {
 			rollupOptions: {
 				output: {
 					entryFileNames: outputFileName,
+					format: 'es',
 					manualChunks() {
 						// 把项目文件夹里面的文件都打包到一个文件中
 						return outputFileName;

@@ -22,9 +22,9 @@ export default defineConfig( ( env ) => {
 	
 	// 配置项合并, 返回配置信息
 	if ( isProduction ) {
-		return mergeConfig( commonConfig, productionConfig( env ) );
+		return mergeConfig( commonConfig( env ), productionConfig( env ) );
 	}
 	else {
-		return mergeConfig( commonConfig, developmentConfig( env ) );
+		return mergeConfig( commonConfig( env ), developmentConfig( env ) );
 	}
 } );
