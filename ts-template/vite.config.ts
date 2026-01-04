@@ -107,6 +107,9 @@ export default defineConfig( ( env ) => {
 				formats: [ 'iife' ],
 			},
 			rollupOptions: {
+				output: {
+					extend: true,
+				},
 				/*
 				* 插件配置
 				* */
