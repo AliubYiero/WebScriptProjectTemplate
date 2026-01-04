@@ -39,13 +39,13 @@
 
 ***开发调试***
 
-6. 开发完成脚本后, 在终端输入 `npm run dev` 命令可打包一个开发环境脚本, 路径为 `template/dist/<脚本名>.dev.js`. 
+6. 开发完成脚本后, 在终端输入 `npm run dev:base` 命令可打包一个开发环境脚本, 路径为 `template/dist/<脚本名>.dev.js`. 
 
-> 开发环境脚本与生产环境脚本的区别: 
->
-> 1. 开发环境脚本会保留 `console.log` 打印, 生产环境脚本会删除 `console.log`. 生产环境的日志输出请使用 `console.info`
-> 2. 开发环境的脚本的脚本名(`@name`)和版本号(`@version`)会自动添加 `-beta` 后缀, 方便辨识. 
-> 3. 开发环境脚本的 `UserScript` 会自动携带本地文件引用 (`@require`), 方便调试. 
+| 开发命令           | 描述                                                         |
+| ------------------ | ------------------------------------------------------------ |
+| `npm run dev:base` | 基础引用打包, 打包完成后的文件自动携带 `@require <本地文件地址>` |
+| `npm run dev:sync` | 同步打包, 可以让打包脚本和脚本猫同步, 详细见 [vite-plugin-scriptcat-script-push](https://github.com/AliubYiero/vite-plugin-scriptcat-script-push) |
+| `npm run dev:test` | 测试打包, 不需要填写 UserScript 就能执行打包                 |
 
 
 
@@ -57,8 +57,8 @@
 8. 修改 `template/docx/更新日志.md` 文件, 对更新内容进行说明.
 9. 在终端输入 `npm run build` 命令, 打开一个生产环境脚本, 路径为 `template/dist/<脚本名>.js` .
 
-> 1. 生产环境脚本打包之后, 会同时复制一份储存到 `template/dist/<版本号>/<脚本名>.js` 路径中, 作为备份. 
-> 2. 同一个版本号只能打包一次, 再次打包会提示报错, 这是为了避免错误覆盖的情况. 如果需要使用同一个版本号再次打包, 需要手动删除 `template/dist/<版本号>/<脚本名>.js` 文件. 
+> 1. 生产环境脚本打包之后, 会同时复制一份储存到 `template/backup/<脚本名>_<版本号>.js` 路径中, 作为备份. 
+> 2. 同一个版本号只能打包一次, 再次打包会提示报错, 这是为了避免错误覆盖的情况. 如果需要使用同一个版本号再次打包, 需要手动删除 `template/backup/<版本号>/<脚本名>.js` 文件. 
 
 
 

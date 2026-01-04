@@ -1,30 +1,130 @@
-/// <reference types="vitest" />
 import { defineConfig, mergeConfig } from 'vite';
-import commonConfig from './vite.config.common';
-import developmentConfig from './vite.config.development';
-import productionConfig from './vite.config.production';
-import { resolve } from 'path';
-import { userScript, validateUserScript } from './vite.util.config';
-import { pathToFileURL } from 'url';
+import { getEntryFileName } from './vite.config.utils';
+import extractGrantPlugin from '@yiero/vite-plugin-scriptcat-extract-grant';
+import metaBannerPlugin from '@yiero/vite-plugin-scriptcat-meta-banner';
+// @ts-ignore
+import vitePluginRaw from 'vite-plugin-raw';
+import { basename } from 'path';
+import { UserScript } from './banner/UserScript';
+import { UserConfig } from './banner/UserConfig';
+import requireSelfPlugin from '@yiero/vite-plugin-scriptcat-require-self';
+import scriptPushPlugin from '@yiero/vite-plugin-scriptcat-script-push';
+import backupScriptPlugin from '@yiero/vite-plugin-scriptcat-backup';
+
+enum Environment {
+	Development = 'development',
+	Sync = 'sync',
+	Production = 'production',
+	Test = 'test',
+}
+
+type ViteConfig = Parameters<typeof defineConfig>[0];
 
 export default defineConfig( ( env ) => {
-	/*
-	* 获取当前的构建环境
-	* */
-	const isProduction = env.mode === 'production';
+	// 项目名
+	const projectName = basename( process.cwd() );
 	
-	// 输入校验
-	validateUserScript( userScript, isProduction );
-	
-	// 打印文件打包信息
-	const filepath = resolve( __dirname, 'dist', `${ userScript.mapper.name }${ isProduction ? '' : '.dev' }.js` );
-	console.info( `文件即将打包: \n  at ${ pathToFileURL( filepath ) }` );
-	
-	// 配置项合并, 返回配置信息
-	if ( isProduction ) {
-		return mergeConfig( commonConfig( env ), productionConfig( env ) );
+	// other config
+	let config: ViteConfig = {};
+	if ( env.mode === Environment.Development ) {
+		config = {
+			build: {
+				rollupOptions: {
+					plugins: [
+						requireSelfPlugin(),
+					],
+				},
+			},
+		};
 	}
-	else {
-		return mergeConfig( commonConfig( env ), developmentConfig( env ) );
+	else if ( env.mode === Environment.Sync ) {
+		config = {
+			build: {
+				rollupOptions: {
+					plugins: [
+						scriptPushPlugin(),
+					],
+				},
+			},
+		};
 	}
+	else if ( env.mode === Environment.Production ) {
+		config = {
+			esbuild: {
+				drop: [ 'debugger' ],
+				charset: 'ascii',
+			},
+			build: {
+				rollupOptions: {
+					plugins: [
+						backupScriptPlugin(),
+					],
+				},
+			},
+		};
+	}
+	else if ( env.mode === Environment.Test ) {
+		UserScript.push(
+			[ 'name', `[test] ${ projectName }` ],
+			[ 'description', `[test project] ${ projectName }` ],
+			[ 'version', '0.1.0-alpha' ],
+			[ 'author', 'test' ],
+			[ 'match', '*://*.*' ],
+		);
+	}
+	
+	const baseOptions: ViteConfig = {
+		esbuild: {
+			minifySyntax: false,
+			minifyIdentifiers: false,
+			minifyWhitespace: false,
+		},
+		build: {
+			// 不清空打包目录
+			emptyOutDir: false,
+			lib: {
+				entry: `src/${ getEntryFileName() }`,
+				name: projectName,
+				// 输出文件名（不含扩展名）
+				fileName: () => {
+					let suffix = '';
+					switch ( env.mode ) {
+						case Environment.Development:
+							suffix = '.dev';
+							break;
+						case Environment.Sync:
+							suffix = '.dev';
+							break;
+						case Environment.Production:
+							suffix = '.user';
+							break;
+						case Environment.Test:
+							suffix = '.test';
+							break;
+					}
+					return `${ projectName }${ suffix }.js`;
+				},
+				formats: [ 'iife' ],
+			},
+			rollupOptions: {
+				/*
+				* 插件配置
+				* */
+				plugins: [
+					// 直接导入 css / html 作为字符串
+					vitePluginRaw( {
+						match: /\.(css|html)$/,
+					} ),
+					// banner
+					metaBannerPlugin( {
+						userScript: UserScript,
+						userConfig: UserConfig,
+					} ),
+					// 自动提取 GM/CAT 授权函数
+					extractGrantPlugin(),
+				],
+			},
+		},
+	};
+	return mergeConfig( baseOptions, config );
 } );

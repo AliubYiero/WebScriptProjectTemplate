@@ -1,4 +1,4 @@
-import { IUserScript } from './UserScript.d';
+import { IUserScript } from '../types/UserScript';
 
 const UserScript: IUserScript[] = [
 	[ 'name', '' ],

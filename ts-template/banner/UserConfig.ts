@@ -1,5 +1,5 @@
-import { IUserConfig } from './UserConfig.d';
+import { IUserConfig } from '../types/UserConfig';
 
 export const UserConfig: IUserConfig = {
 
-}
+};
