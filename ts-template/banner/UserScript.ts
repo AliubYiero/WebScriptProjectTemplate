@@ -1,6 +1,6 @@
-import { IUserScript } from '../types/UserScript';
+import { ScriptCatUserScript } from '../types/UserScript';
 
-const UserScript: IUserScript[] = [
+const UserScript: ScriptCatUserScript = [
 	[ 'name', '' ],
 	[ 'description', '' ],
 	[ 'version', '' ],

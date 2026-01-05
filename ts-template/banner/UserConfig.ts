@@ -1,5 +1,5 @@
-import { IUserConfig } from '../types/UserConfig';
+import { ScriptCatUserConfig } from '../types/UserConfig';
 
-export const UserConfig: IUserConfig = {
+export const UserConfig: ScriptCatUserConfig = {
 
 };

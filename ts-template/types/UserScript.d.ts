@@ -1,34 +1,34 @@
-export declare type IUserScript = [ IUserScriptKey, string ]
-	| [ 'run-at', IUserScriptRunAt ]
-	| [ 'grant', GrantFunctionInterface ];
+export type ScriptCatUserScript = ScriptCatUserScriptItem[]
 
-/**
- * 键值
- */
-export declare type IUserScriptKey =
-	'name'
+export type ScriptCatUserScriptItem =
+	[ UserScriptSingleDescription ] |
+	[ 'run-at', UserScriptRunAt ] |
+	[ 'run-in', UserScriptRunIn ] |
+	[ 'inject-into', UserScriptInjectInto ] |
+	[ 'grant', UserScriptGrant ] |
+	[ 'resource', string, string ] |
+	[ 'antifeature', UserScriptAntifeature, string ] |
+	[ UserScriptKey, string ] |
+	[ string, string ]
+
+type UserScriptSingleDescription =
+	'background' | 'noframes' | 'early-start'
+
+export type UserScriptKey =
+	| 'name'
 	| 'namespace'
 	| 'version'
 	| 'description'
 	| 'author'
-	| 'run-at'
-	| 'run-in'
-	| 'early-start'
-	| 'inject-into'
-	| 'storageNam'
-	| 'background'
+	| 'storageName'
 	| 'crontab'
 	| 'match'
 	| 'include'
 	| 'exclude'
-	| 'grant'
 	| 'connect'
-	| 'resource'
 	| 'require'
 	| 'require-css'
-	| 'noframes'
 	| 'definition'
-	| 'antifeature'
 	| 'license'
 	| 'updateURL'
 	| 'downloadURL'
@@ -42,22 +42,18 @@ export declare type IUserScriptKey =
 	| 'defaulticon'
 	| 'icon64'
 	| 'icon64URL'
+	| 'tag';
 
 /**
- * 脚本运行时机
- * */
-export declare type IUserScriptRunAt =
-	'document-start'
+ * 脚本的运行时间
+ */
+type UserScriptRunAt = 'document-start'
 	| 'document-idle'
 	| 'document-end'
 	| 'document-body'
-	| 'context-menu';
+	| 'context-menu'
 
-/**
- * 授权函数名数组
- * */
-export declare type GrantFunctionInterface =
-	'GM_addStyle'
+type UserScriptGrant = 'GM_addStyle'
 	| 'GM_addElement'
 	| 'GM_getResourceText'
 	| 'GM_getResourceURL'
@@ -81,11 +77,31 @@ export declare type GrantFunctionInterface =
 	| 'GM_xmlhttpRequest'
 	| 'GM_webRequest'
 	| 'GM_cookie'
-	| 'GM_cookie.list'
-	| 'GM_cookie.set'
-	| 'GM_cookie.delete'
+	| 'GM.cookie'
 	| 'window.onurlchange'
 	| 'window.close'
 	| 'window.focus'
 	| 'CAT_userConfig'
-	| 'CAT_fileStorage';
+	| 'CAT_fileStorage'
+	| 'none'
+	| 'unsafeWindow'
+
+/**
+ * 指定脚本注入的环境
+ */
+type UserScriptRunIn = 'normal-tabs' | 'incognito-tabs'
+
+/**
+ * 指定脚本注入的位置
+ */
+type UserScriptInjectInto = 'page' | 'content'
+
+/**
+ * 与脚本市场有关的，不受欢迎的功能需要加上此描述值
+ */
+type UserScriptAntifeature =
+	'ads'
+	| 'referral-link'
+	| 'tracking'
+	| 'miner'
+	| string
