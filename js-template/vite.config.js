@@ -10,6 +10,7 @@ import { UserConfig } from './banner/UserConfig';
 import requireSelfPlugin from '@yiero/vite-plugin-scriptcat-require-self';
 import scriptPushPlugin from '@yiero/vite-plugin-scriptcat-script-push';
 import backupScriptPlugin from '@yiero/vite-plugin-scriptcat-backup';
+import replace from '@rollup/plugin-replace';
 var Environment;
 (function (Environment) {
     Environment["Development"] = "development";
@@ -54,6 +55,20 @@ export default defineConfig((env) => {
                 rollupOptions: {
                     plugins: [
                         backupScriptPlugin(),
+                        /*
+                        * 自定义替换代码
+                        * */
+                        replace({
+                            preventAssignment: true,
+                            /**
+                             * 在这里写要替换的代码/字符串
+                             * key: 要捕获的字符串
+                             * value: 捕获后要替换掉的字符串
+                             * @example {'console.log': '(() => {})'} 代码中所有的 console.log 就都会被替换成一个匿名箭头函数
+                             * */
+                            values: { 'console.log': '(() => {})' },
+                            delimiters: ['', ''],
+                        }),
                     ],
                 },
             },
