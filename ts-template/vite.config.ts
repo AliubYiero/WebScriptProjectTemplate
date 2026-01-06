@@ -25,9 +25,11 @@ export default defineConfig( ( env ) => {
 	// 项目名
 	const projectName = basename( process.cwd() );
 	
+	const name = UserScript.find( ( [ key ] ) => key === 'name' );
 	// other config
 	let config: ViteConfig = {};
 	if ( env.mode === Environment.Development ) {
+		name && ( name[ 1 ] = `[Dev] ${ name[ 1 ] }` );
 		config = {
 			build: {
 				rollupOptions: {
@@ -39,6 +41,7 @@ export default defineConfig( ( env ) => {
 		};
 	}
 	else if ( env.mode === Environment.Sync ) {
+		name && ( name[ 1 ] = `[Dev] ${ name[ 1 ] }` );
 		config = {
 			build: {
 				rollupOptions: {
