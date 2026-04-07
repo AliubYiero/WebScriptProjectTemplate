@@ -11,8 +11,10 @@ const UserScript: ScriptCatUserScript = [
 	[ 'icon', '' ],
 	[ 'run-at', '' ],
 	[ 'connect', '' ],
+	[ 'tag', '' ],
 	[ 'license', '' ],
 	[ 'namespace', '' ],
+	[ 'noframes' ],
 ];
 
 export {

@@ -8,8 +8,10 @@ const UserScript = [
     ['resource', ''],
     ['icon', ''],
     ['run-at', ''],
+    ['tag', ''],
     ['connect', ''],
     ['license', ''],
     ['namespace', ''],
+    ['noframes']
 ];
 export { UserScript, };
