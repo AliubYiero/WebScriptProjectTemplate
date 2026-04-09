@@ -11,6 +11,7 @@ import requireSelfPlugin from '@yiero/vite-plugin-scriptcat-require-self';
 import scriptPushPlugin from '@yiero/vite-plugin-scriptcat-script-push';
 import backupScriptPlugin from '@yiero/vite-plugin-scriptcat-backup';
 import replace from '@rollup/plugin-replace';
+import autoIconPlugin from '@yiero/vite-plugin-scriptcat-auto-icon';
 
 enum Environment {
 	Development = 'development',
@@ -142,6 +143,8 @@ export default defineConfig( ( env ) => {
 						userScript: UserScript,
 						userConfig: UserConfig,
 					} ),
+					// 自动获取 match URL 中存在的网站 icon 作为 @icon
+					autoIconPlugin(),
 					// 自动提取 GM/CAT 授权函数
 					extractGrantPlugin(),
 				],

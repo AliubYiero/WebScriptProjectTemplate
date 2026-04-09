@@ -2,6 +2,7 @@ import { defineConfig, mergeConfig } from 'vite';
 import { getEntryFileName } from './vite.config.utils';
 import extractGrantPlugin from '@yiero/vite-plugin-scriptcat-extract-grant';
 import metaBannerPlugin from '@yiero/vite-plugin-scriptcat-meta-banner';
+import autoIconPlugin from '@yiero/vite-plugin-scriptcat-auto-icon';
 // @ts-ignore
 import vitePluginRaw from 'vite-plugin-raw';
 import { basename } from 'path';
@@ -131,6 +132,8 @@ export default defineConfig((env) => {
                         userScript: UserScript,
                         userConfig: UserConfig,
                     }),
+                    // 自动获取 match URL 中存在的网站 icon 作为 @icon
+                    autoIconPlugin(),
                     // 自动提取 GM/CAT 授权函数
                     extractGrantPlugin(),
                 ],
